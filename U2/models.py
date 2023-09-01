@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 class Person(models.Model):
     name = models.CharField(max_length=100)
-    age = models.IntegerField()
+    age = models.PositiveIntegerField(validators=[positive_number_validator])
     occupation = models.CharField(max_length=100)
 
     def get_id_and_name(self):
