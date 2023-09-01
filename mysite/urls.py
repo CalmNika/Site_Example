@@ -19,4 +19,5 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ice_creams/', IceCreamListView.as_view(), name='ice_cream_list')
 ]
