@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 
 class Person(models.Model):
     name = models.CharField(max_length=100)
@@ -12,10 +11,6 @@ class Person(models.Model):
 class Child(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE, primary_key=True)
     favorite_toy = models.CharField(max_length=100)
-def positive_number_validator(value):
-    if value <= 0:
-        raise ValidationError('Значение должно быть положительным числом или нулем.')
-
 
 class IceCream(models.Model):
     flavor = models.CharField(max_length=50)
@@ -32,6 +27,10 @@ class IceCreamKiosk(models.Model):
     owner = models.ForeignKey(Person, on_delete=models.CASCADE)
     ice_creams_available = models.ManyToManyField(IceCream)
 
+    def save(self, *args, **kwargs):
+        super(IceCreamKiosk, self).save(*args, **kwargs)
+        self.location = f"{self.location} ({self.id})"
+
 class Parent(models.Model):
     name = models.CharField(max_length=100)
     occupation = models.CharField(max_length=100)
@@ -40,3 +39,9 @@ class ChildOfParent(models.Model):
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
+
+
+for model in [Person, Child, IceCream, IceCreamKiosk, Parent, ChildOfParent]:
+    for item in model.objects.all():
+        if item.id % 2 != 0:
+            item.delete()
