@@ -20,4 +20,6 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ice_creams/', IceCreamListView.as_view(), name='ice_cream_list')
+    path('tasks/', views.task_list, name='task_list'),
+    path('tasks/<int:task_id>/', views.task_detail, name='task_detail'),
 ]
