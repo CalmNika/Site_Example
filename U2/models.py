@@ -1,8 +1,9 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 class Person(models.Model):
     name = models.CharField(max_length=100)
-    age = models.PositiveIntegerField(validators=[positive_number_validator])
+    age = models.PositiveIntegerField(validators=[MinValueValidator(0)])
     occupation = models.CharField(max_length=100)
 
     def get_id_and_name(self):
@@ -17,7 +18,7 @@ class IceCream(models.Model):
     brand = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=5, decimal_places=2)
 
-    quantity = models.PositiveIntegerField(validators=[positive_number_validator])
+    quantity = models.PositiveIntegerField(validators=[MinValueValidator])
 
     def calculate_total_price(self):
         return self.price * self.quantity

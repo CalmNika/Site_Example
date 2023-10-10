@@ -6,3 +6,6 @@ def task_list(request):
     task_data = [{'title': task.title, 'description': task.description, 'created_at': task.created_at, 'updated_at': task.updated_at} for task in tasks]
 
     return JsonResponse({'tasks': task_data})
+
+from LP.models import Task
+task_data = Task.objects.values('title', 'created_at')
